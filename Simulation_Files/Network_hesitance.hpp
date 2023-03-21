@@ -21,26 +21,26 @@ class C_Network // : private C_Layer<C_SocialData>, private C_Layer<C_PhysicalDa
 {
     private:
 
-		C_Connectivity_Layer<C_SocialData>	_social_layer;
-	    C_Layer<C_PhysicalData>				_physical_layer;
+	C_Connectivity_Layer<C_SocialData>	_social_layer;
+	C_Layer<C_PhysicalData>			_physical_layer;
 
-		const double 		_birth_death_ratio;
-	   	const double 		_case_importation_ratio;
-		const double 		_social_norm;
-		const double 		_initial_vaccinator_proportion;
-		const double 		_random_opinion_switch_probability;
-		const int	 		_instance;
-		const double 		_perceived_vaccine_risk;
-		const int 			_average_node_degree;
-		const double 		_infection_prob;
-		const std::string 	_network_structure;
+	const double 		_birth_death_ratio;
+	const double 		_case_importation_ratio;
+	const double 		_social_norm;
+	const double 		_initial_vaccinator_proportion;
+	const double 		_random_opinion_switch_probability;
+	const int	 	_instance;
+	const double 		_perceived_vaccine_risk;
+	const int 		_average_node_degree;
+	const double 		_infection_prob;
+	const std::string 	_network_structure;
 
-	    std::map<std::multiset<char>, int> 	_joint_state_distribution;
-	    std::vector<std::stringstream>    	_stats_file_buffer;
+	std::map<std::multiset<char>, int> 	_joint_state_distribution;
+	std::vector<std::stringstream>    	_stats_file_buffer;
 
-		// vectors to check for the equilibrium if it's reached
-		// keys and spaces defined in the class constructor
-		std::map<std::string, std::vector<float>> _the_check_vectors;
+	// vectors to check for the equilibrium if it's reached
+	// keys and spaces defined in the class constructor
+	std::map<std::string, std::vector<float>> _the_check_vectors;
 
     public:
 
@@ -214,8 +214,8 @@ class C_Network // : private C_Layer<C_SocialData>, private C_Layer<C_PhysicalDa
 	            }
 	            if(v < number_of_nodes)
 	            {
-					Connect_Nodes("social", v, w);
-					Connect_Nodes("physical", v, w);
+			Connect_Nodes("social", v, w);
+			Connect_Nodes("physical", v, w);
 	            }
 	        }
 	        for(auto person : Nodes("social"))
@@ -312,12 +312,12 @@ class C_Network // : private C_Layer<C_SocialData>, private C_Layer<C_PhysicalDa
 		    if(layer_name == "physical")
 		    {
 		        -- _joint_state_distribution[{old_social_state, old_physical_state}];
-				++ _joint_state_distribution[{old_social_state, new_state}];
-				_physical_layer.Node_State_Change_To(person, new_state);
+			++ _joint_state_distribution[{old_social_state, new_state}];
+			_physical_layer.Node_State_Change_To(person, new_state);
 		    }
 		    else  // layer_name == social
 		    {
-				// printf("\trequested transition %c to %c. physical state is %c.\n", old_social_state, new_state, old_physical_state);
+			// printf("\trequested transition %c to %c. physical state is %c.\n", old_social_state, new_state, old_physical_state);
 		        if((new_state == 'V') and (State("physical", person) == 'S')) // if they were susceptible before
 	            {
 					// std::cout << "\tgoing to be a susceptiple vaccinator. we can't let this happen." << std::endl;
@@ -362,10 +362,10 @@ class C_Network // : private C_Layer<C_SocialData>, private C_Layer<C_PhysicalDa
 		    // never being infected
 		    assert(check_layer("social", social_state));
 		    return (
-						Joint_State_Distribution('I', social_state) +
-						Joint_State_Distribution('R', social_state)
-					)
-		        	/ (double) Nodes_In_State_Count("social", social_state);
+				Joint_State_Distribution('I', social_state) +
+				Joint_State_Distribution('R', social_state)
+			)
+			/ (double) Nodes_In_State_Count("social", social_state);
 		}
 
 		const int Random_Node_In_State(const std::string layer_name, const char state)
@@ -548,40 +548,40 @@ class C_Network // : private C_Layer<C_SocialData>, private C_Layer<C_PhysicalDa
 				<< "N"                              		<< ","
 				<< "instance"                       		<< ","
 				<< "network_structure"                		<< ","
-				<< "mean_degree"    						<< ","
-				<< "perceived_vaccine_risk"                 << ","
+				<< "mean_degree"    				<< ","
+				<< "perceived_vaccine_risk"                 	<< ","
 				<< "infec_prob"                     		<< ","
 				<< "social_norm"                    		<< ","
 				<< "importation"                    		<< ","
 				<< "initial_vacc_proportion"        		<< ","
-				<< "random_opinion_switch"					<< ","
-				<< "proportion_of_nodes"					<< ","
+				<< "random_opinion_switch"			<< ","
+				<< "proportion_of_nodes"			<< ","
 				<< "time"                           		<< ","
 
 				<< "phys_S"                         		<< ","
 				<< "phys_I"                         		<< ","
 				<< "phys_R"                         		<< ","
 				<< "phys_V"                         		<< ","
-				<< "soc_H"									<< ","
+				<< "soc_H"					<< ","
 				<< "soc_N"                          		<< ","
 				<< "soc_V"                          		<< ","
 
 				<< "mutual_info"                    		<< ","
 
-				<< "watts_strogatz_hesitant"				<< ","
-				<< "watts_strogatz_nonvacc" 				<< ","
-				<< "watts_strogatz_vacc" 					<< ","
-				<< "watts_strogatz_all" 					<< ","
+				<< "watts_strogatz_hesitant"			<< ","
+				<< "watts_strogatz_nonvacc" 			<< ","
+				<< "watts_strogatz_vacc" 			<< ","
+				<< "watts_strogatz_all" 			<< ","
 
-				<< "prob_sick_hesitant"						<< ","
+				<< "prob_sick_hesitant"				<< ","
 				<< "prob_sick_nonvacc"              		<< ","
 				<< "prob_sick_vacc"                 		<< ","
 
-				<< "HH_join_count"							<< ","
+				<< "HH_join_count"				<< ","
 				<< "NN_join_count"                  		<< ","
 				<< "VV_join_count"                  		<< ","
-				<< "HN_join_count"							<< ","
-				<< "HV_join_count"							<< ","
+				<< "HN_join_count"				<< ","
+				<< "HV_join_count"				<< ","
 				<< "NV_join_count"                  		<< ","
 
 				<< "hesitant_min_conn_comp_size"          	<< ","
@@ -614,22 +614,22 @@ class C_Network // : private C_Layer<C_SocialData>, private C_Layer<C_PhysicalDa
 				<< "vacc_avg_chamber_size"              	<< ","
 				<< "vacc_number_chambers"               	<< ","
 
-				<< "hesitant_opinion_change"				<< ","
-				<< "nonvacc_opinion_change"        		 	<< ","
+				<< "hesitant_opinion_change"			<< ","
+				<< "nonvacc_opinion_change"        		<< ","
 				<< "vacc_opinion_change"            		<< ","
 				<< "total_opinion_change"           		<< ","
 
 				<< "ratio_hesitant_infected_neighbours"		<< ","
 				<< "ratio_nonvacc_infected_neighbours"    	<< ","
-				<< "ratio_vacc_infected_neighbours"			<< ","
+				<< "ratio_vacc_infected_neighbours"		<< ","
 
-				<< "num_hesitant_triads"					<< ","
-				<< "num_nonvacc_triads"						<< ","
-				<< "num_vacc_triads"						<< ","
-				<< "total_num_triads"						<< ","
+				<< "num_hesitant_triads"			<< ","
+				<< "num_nonvacc_triads"				<< ","
+				<< "num_vacc_triads"				<< ","
+				<< "total_num_triads"				<< ","
 
-				<< "hesitant_diameter"						<< ","
-				<< "nonvacc_diameter"						<< ","
+				<< "hesitant_diameter"				<< ","
+				<< "nonvacc_diameter"				<< ","
 				<< "vacc_diameter"
 
 			<<  "\n";
@@ -772,91 +772,91 @@ class C_Network // : private C_Layer<C_SocialData>, private C_Layer<C_PhysicalDa
 
 			// TIC(1004);
 			_stats_file_buffer.at(time+1)
-				<< network_size                             				<< ","
-				<< _instance                      							<< ","
-				<< _network_structure                							<< ","
-				<< _average_node_degree    									<< ","
-				<< _perceived_vaccine_risk                      			<< ","
-				<< _infection_prob                    						<< ","
-				<< _social_norm                    							<< ","
-				<< _case_importation_ratio	        		 				<< ","
-				<< _initial_vaccinator_proportion        					<< ","
-				<< _random_opinion_switch_probability 						<< ","
-				<< proportion												<< ","
-				<< time                           							<< ","
+				<< network_size                             			<< ","
+				<< _instance                      				<< ","
+				<< _network_structure                				<< ","
+				<< _average_node_degree    					<< ","
+				<< _perceived_vaccine_risk                      		<< ","
+				<< _infection_prob                    				<< ","
+				<< _social_norm                    				<< ","
+				<< _case_importation_ratio	        		 	<< ","
+				<< _initial_vaccinator_proportion        			<< ","
+				<< _random_opinion_switch_probability 				<< ","
+				<< proportion							<< ","
+				<< time                           				<< ","
 
-				<< Nodes_In_State_Count("physical", 'S') 					<< ","
-				<< Nodes_In_State_Count("physical", 'I') 					<< ","
-				<< Nodes_In_State_Count("physical", 'R')  					<< ","
-				<< Nodes_In_State_Count("physical", 'V')   	 				<< ","
-				<< Nodes_In_State_Count("social", 'H')						<< ","
-				<< Nodes_In_State_Count("social", 'N')  					<< ","
-				<< Nodes_In_State_Count("social", 'V')  					<< ","
+				<< Nodes_In_State_Count("physical", 'S') 			<< ","
+				<< Nodes_In_State_Count("physical", 'I') 			<< ","
+				<< Nodes_In_State_Count("physical", 'R')  			<< ","
+				<< Nodes_In_State_Count("physical", 'V')   	 		<< ","
+				<< Nodes_In_State_Count("social", 'H')				<< ","
+				<< Nodes_In_State_Count("social", 'N')  			<< ","
+				<< Nodes_In_State_Count("social", 'V')  			<< ","
 
-				<< mutual_information										<< ","
+				<< mutual_information						<< ","
 
-				<< hesitant_GCC												<< ","
-				<< nonvacc_GCC												<< ","
-				<< vacc_GCC													<< ","
-				<< total_GCC												<< ","
+				<< hesitant_GCC							<< ","
+				<< nonvacc_GCC							<< ","
+				<< vacc_GCC							<< ","
+				<< total_GCC							<< ","
 
-				<< Prob_Has_Been_Sick('H')									<< ","
-				<< Prob_Has_Been_Sick('N')  								<< ","
-				<< Prob_Has_Been_Sick('V')  								<< ","
+				<< Prob_Has_Been_Sick('H')					<< ","
+				<< Prob_Has_Been_Sick('N')  					<< ","
+				<< Prob_Has_Been_Sick('V')  					<< ","
 
-				<< HH_join_count											<< ","
-				<< NN_join_count                							<< ","
-				<< VV_join_count											<< ","
-				<< HN_join_count 											<< ","
-				<< HV_join_count                							<< ","
-				<< NV_join_count                							<< ","
+				<< HH_join_count						<< ","
+				<< NN_join_count                				<< ","
+				<< VV_join_count						<< ","
+				<< HN_join_count 						<< ","
+				<< HV_join_count                				<< ","
+				<< NV_join_count                				<< ","
 
-				<< min_int(hesitant_conn_comp_sizes)             			<< ","
-				<< max_int(hesitant_conn_comp_sizes)             			<< ","
-				<< avg_int(hesitant_conn_comp_sizes)             			<< ","
-				<< sum_int(hesitant_conn_comp_counts)           			<< ","
+				<< min_int(hesitant_conn_comp_sizes)             		<< ","
+				<< max_int(hesitant_conn_comp_sizes)             		<< ","
+				<< avg_int(hesitant_conn_comp_sizes)             		<< ","
+				<< sum_int(hesitant_conn_comp_counts)           		<< ","
 
-				<< min_int(nonvacc_conn_comp_sizes)             			<< ","
-				<< max_int(nonvacc_conn_comp_sizes)             			<< ","
-				<< avg_int(nonvacc_conn_comp_sizes)             			<< ","
-				<< sum_int(nonvacc_conn_comp_counts)           				<< ","
+				<< min_int(nonvacc_conn_comp_sizes)             		<< ","
+				<< max_int(nonvacc_conn_comp_sizes)             		<< ","
+				<< avg_int(nonvacc_conn_comp_sizes)             		<< ","
+				<< sum_int(nonvacc_conn_comp_counts)           			<< ","
 
-				<< min_int(vacc_conn_comp_sizes)             				<< ","
-				<< max_int(vacc_conn_comp_sizes)             				<< ","
-				<< avg_int(vacc_conn_comp_sizes)             				<< ","
-				<< sum_int(vacc_conn_comp_counts)             				<< ","
+				<< min_int(vacc_conn_comp_sizes)             			<< ","
+				<< max_int(vacc_conn_comp_sizes)             			<< ","
+				<< avg_int(vacc_conn_comp_sizes)             			<< ","
+				<< sum_int(vacc_conn_comp_counts)             			<< ","
 
-				<< min_int(hesitant_echo_chamber_sizes)         			<< ","
-				<< max_int(hesitant_echo_chamber_sizes)          			<< ","
-				<< avg_int(hesitant_echo_chamber_sizes)          			<< ","
-				<< sum_int(hesitant_echo_chamber_counts)         			<< ","
+				<< min_int(hesitant_echo_chamber_sizes)         		<< ","
+				<< max_int(hesitant_echo_chamber_sizes)          		<< ","
+				<< avg_int(hesitant_echo_chamber_sizes)          		<< ","
+				<< sum_int(hesitant_echo_chamber_counts)         		<< ","
 
-				<< min_int(nonvacc_echo_chamber_sizes)         				<< ","
-				<< max_int(nonvacc_echo_chamber_sizes)          			<< ","
-				<< avg_int(nonvacc_echo_chamber_sizes)          			<< ","
-				<< sum_int(nonvacc_echo_chamber_counts)         			<< ","
+				<< min_int(nonvacc_echo_chamber_sizes)         			<< ","
+				<< max_int(nonvacc_echo_chamber_sizes)          		<< ","
+				<< avg_int(nonvacc_echo_chamber_sizes)          		<< ","
+				<< sum_int(nonvacc_echo_chamber_counts)         		<< ","
 
-				<< min_int(vacc_echo_chamber_sizes)             			<< ","
-				<< max_int(vacc_echo_chamber_sizes)             			<< ","
-				<< avg_int(vacc_echo_chamber_sizes)             			<< ","
-				<< sum_int(vacc_echo_chamber_counts)            			<< ","
+				<< min_int(vacc_echo_chamber_sizes)             		<< ","
+				<< max_int(vacc_echo_chamber_sizes)             		<< ","
+				<< avg_int(vacc_echo_chamber_sizes)             		<< ","
+				<< sum_int(vacc_echo_chamber_counts)            		<< ","
 
-				<< Opinion_Changes_Per_Person(proportion, 'H')				<< ","
+				<< Opinion_Changes_Per_Person(proportion, 'H')			<< ","
 				<< Opinion_Changes_Per_Person(proportion, 'N')        		<< ","
 				<< Opinion_Changes_Per_Person(proportion, 'V')            	<< ","
-				<< Opinion_Changes_Per_Person(proportion)          			<< ","
+				<< Opinion_Changes_Per_Person(proportion)          		<< ","
 
-				<< Ratio_Infected_Neighbours('H')							<< ","
-				<< Ratio_Infected_Neighbours('N') 							<< ","
-				<< Ratio_Infected_Neighbours('V')  							<< ","
+				<< Ratio_Infected_Neighbours('H')				<< ","
+				<< Ratio_Infected_Neighbours('N') 				<< ","
+				<< Ratio_Infected_Neighbours('V')  				<< ","
 
-				<< num_hesitant_triads										<< ","
-				<< num_nonvacc_triads 										<< ","
-				<< num_vacc_triads 											<< ","
-				<< num_total_triads 										<< ","
+				<< num_hesitant_triads						<< ","
+				<< num_nonvacc_triads 						<< ","
+				<< num_vacc_triads 						<< ","
+				<< num_total_triads 						<< ","
 
-				<< hesitant_diameter										<< ","
-				<< nonvacc_diameter											<< ","
+				<< hesitant_diameter						<< ","
+				<< nonvacc_diameter						<< ","
 				<< vacc_diameter
 
 			<<  "\n";
@@ -966,11 +966,11 @@ class C_Network // : private C_Layer<C_SocialData>, private C_Layer<C_PhysicalDa
 			const std::string structure,
 			const int number_of_nodes,
 			const int num_neighbours,
-		    const double infection,
+		    	const double infection,
 			const double perceived_vaccine_risk,
-		    const double birth_death,
-		    const double importation,
-		    const double social_norm,
+		    	const double birth_death,
+		    	const double importation,
+		    	const double social_norm,
 			const double random_switch,
 			const double initial_vacc_proportion,
 			const int this_instance
@@ -1001,7 +1001,7 @@ class C_Network // : private C_Layer<C_SocialData>, private C_Layer<C_PhysicalDa
 			auto split_iterator = std::next(all_the_nodes.begin(), initial_vacc_proportion);
 
 			std::vector<int> vaccers( all_the_nodes.begin(), all_the_nodes.begin()+initial_vaccinator_quota );
-			std::vector<int> baby_murderers( all_the_nodes.begin() + initial_vaccinator_quota, all_the_nodes.end() );
+			std::vector<int> naysayers( all_the_nodes.begin() + initial_vaccinator_quota, all_the_nodes.end() );
 
 			for(int good_guy : vaccers)
 			{
@@ -1009,10 +1009,10 @@ class C_Network // : private C_Layer<C_SocialData>, private C_Layer<C_PhysicalDa
 				_physical_layer.Node_State_Change_To(good_guy, 'V');
 				++ _joint_state_distribution[{'V','V'}];
 			}
-			for(int motherfucker : baby_murderers)
+			for(int holdout : naysayers)
 			{
-			   _social_layer.Node_State_Change_To(motherfucker, 'N');
-			   _physical_layer.Node_State_Change_To(motherfucker, 'S');
+			   _social_layer.Node_State_Change_To(holdout, 'N');
+			   _physical_layer.Node_State_Change_To(holdout, 'S');
 			   ++ _joint_state_distribution[{'N','S'}];
 			}
 
